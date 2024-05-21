@@ -9,7 +9,7 @@ volumes:
 
 steps:
 - name: publish-runner
-  image: registry.helix.ml/drone-plugins/docker:luke-dev-2
+  image: registry.helix.ml/drone-plugins/docker:luke-dev-3
   pull: always
   settings:
     dockerfile: Dockerfile.runner
@@ -45,7 +45,7 @@ volumes:
 
 steps:
 - name: publish-runner
-  image: registry.helix.ml/drone-plugins/docker:luke-dev-2
+  image: registry.helix.ml/drone-plugins/docker:luke-dev-3
   pull: always
   settings:
     dockerfile: Dockerfile.runner
@@ -87,7 +87,7 @@ volumes:
 
 steps:
 - name: publish-runner
-  image: registry.helix.ml/drone-plugins/docker:luke-dev-2
+  image: registry.helix.ml/drone-plugins/docker:luke-dev-3
   pull: always
   settings:
     dockerfile: Dockerfile.runner
