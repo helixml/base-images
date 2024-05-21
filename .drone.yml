@@ -32,9 +32,6 @@ steps:
     - tag
     - push
 
-depends_on:
-- default
-
 # llama3 70B + the whole cake
 ---
 kind: pipeline
@@ -75,7 +72,6 @@ steps:
     - push
 
 depends_on:
-- default
 - build-runner-base-empty
 
 # llama3 70B + the whole cake
@@ -122,5 +118,4 @@ steps:
     - push
 
 depends_on:
-- default
 - build-runner-base-small
