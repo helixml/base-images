@@ -26,8 +26,6 @@ steps:
   - name: dockersocket
     path: /var/run/docker.sock
   when:
-    branch:
-    - main
     event:
     - tag
     - push
@@ -57,7 +55,7 @@ steps:
     repo: registry.helix.ml/helix/runner-base
     build_args:
       # Small models only
-      - PULL_OLLAMA_MODELS=llama3:instruct;phi3:instruct
+      - PULL_OLLAMA_MODELS=llama3:instruct;phi3:instruct;gemma2:9b
     username: admin
     password:
       from_secret: helix_registry_password
@@ -65,8 +63,6 @@ steps:
   - name: dockersocket
     path: /var/run/docker.sock
   when:
-    branch:
-    - main
     event:
     - tag
     - push
@@ -102,7 +98,7 @@ steps:
       # big base layer, and have a smaller layer on top for models that might
       # change more frequently and that we can add to without churning the
       # 100GB base
-      - PULL_OLLAMA_MODELS=llama3:instruct;llama3:70b;mixtral:instruct;phi3:instruct
+      - PULL_OLLAMA_MODELS=llama3:instruct;llama3:70b;mixtral:instruct;phi3:instruct;gemma2:9b;gemma2:27b
       - PULL_OLLAMA_MODELS_PHASE_2=adrienbrault/nous-hermes2theta-llama3-8b:q8_0
     username: admin
     password:
@@ -111,8 +107,6 @@ steps:
   - name: dockersocket
     path: /var/run/docker.sock
   when:
-    branch:
-    - main
     event:
     - tag
     - push
