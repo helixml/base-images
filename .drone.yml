@@ -14,7 +14,7 @@ steps:
   settings:
     dockerfile: Dockerfile.runner
     tags:
-    - "${DRONE_TAG:-main}-empty" # Default to branch
+    - "${DRONE_TAG:-${DRONE_BRANCH}}-empty" # Default to branch
     - "latest-empty"
     daemon_off: true
     registry: registry.helix.ml
@@ -48,7 +48,7 @@ steps:
   settings:
     dockerfile: Dockerfile.runner
     tags:
-    - "${DRONE_TAG:-main}-small" # Default to branch
+    - "${DRONE_TAG:-${DRONE_BRANCH}}-small" # Default to branch
     - "latest-small"
     daemon_off: true
     registry: registry.helix.ml
@@ -88,7 +88,7 @@ steps:
   settings:
     dockerfile: Dockerfile.runner
     tags:
-    - "${DRONE_TAG:-main}-large"
+    - "${DRONE_TAG:-${DRONE_BRANCH}}-large" # Default to branch
     - "latest-large"
     daemon_off: true
     registry: registry.helix.ml
