@@ -1,7 +1,6 @@
-# FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
-FROM winglian/axolotl:main-py3.10-cu118-2.0.1@sha256:71582175f32c1aca4f0355b8af62f627429a8a83eabbb84e18096490b1661d3c
+FROM winglian/axolotl:main-20241008-py3.11-cu124-2.4.0
 
-ENV CACHE_DATE=2024-05-22
+ENV CACHE_DATE=2024-10-08
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 WORKDIR /workspace
@@ -50,9 +49,12 @@ RUN --mount=type=cache,target=/var/cache/apt apt-get update -qq && apt-get insta
 # Checkout https://github.com/lukemarsden/axolotl/tree/new-long-running (see the hash for the specific version)
 RUN cd /workspace/axolotl && \
     git remote rm origin && \
-    git remote add lukefork https://github.com/lukemarsden/axolotl && \
+    git remote add origin https://github.com/axolotl-ai-cloud/axolotl && \
     git fetch --all && \
-    git checkout 74b760e673715e775a27483086c618f283a14361
+    git checkout e1915f5625b2330555c3f61816dd003fb939ae13 && \
+    . venv/bin/activate && \
+    pip3 install packaging ninja && \
+    pip3 install -e '.[flash-attn,deepspeed]'
 
 # cog stuff
 COPY cog/cog-0.0.1.dev-py3-none-any.whl /tmp/cog-0.0.1.dev-py3-none-any.whl
