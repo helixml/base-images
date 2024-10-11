@@ -32,7 +32,6 @@ steps:
     - tag
     - push
 
-# llama3 70B + the whole cake
 ---
 kind: pipeline
 type: docker
@@ -57,7 +56,7 @@ steps:
     repo: registry.helix.ml/helix/runner-base
     build_args:
       # Small models only
-      - PULL_OLLAMA_MODELS=llama3:instruct;phi3:instruct
+      - PULL_OLLAMA_MODELS=llama3:instruct;phi3:instruct;llama3.1:8b;llama3.2:1b;llama3.2:3b;phi3.5:3.8b
     username: admin
     password:
       from_secret: helix_registry_password
@@ -74,7 +73,6 @@ steps:
 depends_on:
 - build-runner-base-empty
 
-# llama3 70B + the whole cake
 ---
 kind: pipeline
 type: docker
@@ -102,7 +100,7 @@ steps:
       # big base layer, and have a smaller layer on top for models that might
       # change more frequently and that we can add to without churning the
       # 100GB base
-      - PULL_OLLAMA_MODELS=llama3:instruct;llama3:70b;mixtral:instruct;phi3:instruct
+      - PULL_OLLAMA_MODELS=llama3:instruct;phi3:instruct;llama3.1:8b;llama3.2:1b;llama3.2:3b;phi3.5:3.8b;llama3:70b;mixtral:instruct;llama3.1:70b;qwen2.5:7b;qwen2.5:72b
       - PULL_OLLAMA_MODELS_PHASE_2=adrienbrault/nous-hermes2theta-llama3-8b:q8_0
     username: admin
     password:
