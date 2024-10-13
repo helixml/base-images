@@ -72,7 +72,7 @@ RUN cd /workspace/axolotl && \
     git remote rm origin && \
     git remote add origin https://github.com/axolotl-ai-cloud/axolotl && \
     git fetch --all && \
-    git checkout e1915f5625b2330555c3f61816dd003fb939ae13 && \
+    git checkout 1834cdc3645c003e3db02346912cab19a1eb5ca3 && \
     . venv/bin/activate && \
     pip3 install packaging ninja && \
     pip3 install -e '.[flash-attn,deepspeed]'
