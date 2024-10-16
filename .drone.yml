@@ -103,7 +103,7 @@ steps:
       - PULL_OLLAMA_MODELS=llama3:instruct;llama3:8b-instruct-q8_0;llama3.1:8b-instruct-q8_0;llama3.1:70b;llama3.2:1b-instruct-q8_0;llama3.2:3b-instruct-q8_0
       - PULL_OLLAMA_MODELS_PHASE_2=phi3.5:3.8b-mini-instruct-q8_0;mixtral:instruct;gemma2:2b-instruct-q8_0;gemma2:9b-instruct-q8_0;gemma2:27b-instruct-q8_0
       - PULL_OLLAMA_MODELS_PHASE_3=qwen2.5:7b-instruct-q8_0;qwen2.5:72b
-      - PULL_OLLAMA_MODELS_PHASE_4=adrienbrault/nous-hermes2theta-llama3-8b:q8_0;hermes3:8b-llama3.1-q8_0;aya:8b-23-q8_0;aya:35b
+      - PULL_OLLAMA_MODELS_PHASE_4=adrienbrault/nous-hermes2theta-llama3-8b:q8_0;hermes3:8b-llama3.1-q8_0;aya:8b-23-q8_0;aya:35b;mistral-nemo:12b-instruct-2407-q8_0;mixtral:8x7b-instruct-v0.1-q6_K
     username: admin
     password:
       from_secret: helix_registry_password
