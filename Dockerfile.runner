@@ -94,7 +94,8 @@ RUN --mount=type=cache,target=/root/.cache/pip cd /workspace && \
 # what you sayin', cat?
 
 # so we don't have to fork upstream cog-sdxl repo
-COPY cog/helix_cog_wrapper.py /workspace/cog-sdxl/helix_cog_wrapper.py
+# Let's do this in the upper container to allow for easier updates.
+# COPY cog/helix_cog_wrapper.py /workspace/cog-sdxl/helix_cog_wrapper.py
 
 EXPOSE 5000
 # CMD ["python", "-m", "cog.server.http"]
