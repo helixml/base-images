@@ -1,3 +1,24 @@
+ARG CUDA_VERSION="12.4.1"
+ARG UBUNTU_VERSION="22.04"
+ARG UV_VERSION="0.5.4"
+
+FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv
+
+FROM ghcr.io/astral-sh/uv:${UV_VERSION}-bookworm-slim AS diffusers
+ENV UV_LINK_MODE=copy
+WORKDIR /workspace
+COPY scripts/pull_diffusers_models .
+# Split these up to try to help with caching. Put most used/stable models first.
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=secret,id=HF_TOKEN export HF_TOKEN=$(cat /run/secrets/HF_TOKEN) && \
+    uv run --frozen pull.py --model_name "black-forest-labs/FLUX.1-dev"
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=secret,id=HF_TOKEN export HF_TOKEN=$(cat /run/secrets/HF_TOKEN) && \
+    uv run --frozen pull.py --model_name "stabilityai/sd-turbo"
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=secret,id=HF_TOKEN export HF_TOKEN=$(cat /run/secrets/HF_TOKEN) && \
+    uv run --frozen pull.py --model_name "stabilityai/stable-diffusion-3.5-medium"
+
 FROM winglian/axolotl:main-20241008-py3.11-cu124-2.4.0
 
 ENV CACHE_DATE=2024-10-08
@@ -91,11 +112,9 @@ RUN --mount=type=cache,target=/root/.cache/pip cd /workspace && \
     pip install -r /tmp/requirements.txt && \
     curl -o /usr/local/bin/pget -L "https://github.com/replicate/pget/releases/download/v0.0.3/pget" && chmod +x /usr/local/bin/pget && \
     wget http://thegiflibrary.tumblr.com/post/11565547760 -O face_landmarker_v2_with_blendshapes.task -q https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task
-# what you sayin', cat?
 
-# so we don't have to fork upstream cog-sdxl repo
-# Let's do this in the upper container to allow for easier updates.
-# COPY cog/helix_cog_wrapper.py /workspace/cog-sdxl/helix_cog_wrapper.py
+# Copy over weights from the diffusers container
+COPY --from=diffusers /root/.cache/huggingface /root/.cache/huggingface
 
 EXPOSE 5000
 # CMD ["python", "-m", "cog.server.http"]
