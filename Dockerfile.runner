@@ -115,6 +115,9 @@ RUN --mount=type=cache,target=/root/.cache/pip cd /workspace && \
 
 # Copy over weights from the diffusers container
 COPY --from=diffusers /root/.cache/huggingface /root/.cache/huggingface
+RUN if [ -z "$PULL_DIFFUSERS_MODELS" ]; then \
+        rm -rf /root/.cache/huggingface; \
+    fi
 
 EXPOSE 5000
 # CMD ["python", "-m", "cog.server.http"]
