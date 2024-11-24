@@ -10,6 +10,9 @@ volumes:
 steps:
 - name: publish-runner
   image: plugins/docker
+  environment:
+    HF_TOKEN:
+      from_secret: HF_TOKEN
   pull: always
   settings:
     dockerfile: Dockerfile.runner
@@ -22,6 +25,7 @@ steps:
     username: admin
     password:
       from_secret: helix_registry_password
+    secret: id=HF_TOKEN,env=HF_TOKEN
   volumes:
   - name: dockersocket
     path: /var/run/docker.sock
@@ -45,6 +49,9 @@ volumes:
 steps:
 - name: publish-runner
   image: plugins/docker
+  environment:
+    HF_TOKEN:
+      from_secret: HF_TOKEN
   pull: always
   settings:
     dockerfile: Dockerfile.runner
@@ -58,6 +65,7 @@ steps:
       # Small models only
       - PULL_OLLAMA_MODELS=llama3.1:8b-instruct-q8_0
       - PULL_OLLAMA_MODELS_PHASE_2=llama3:instruct
+    secret: id=HF_TOKEN,env=HF_TOKEN
     username: admin
     password:
       from_secret: helix_registry_password
@@ -87,6 +95,9 @@ volumes:
 steps:
 - name: publish-runner
   image: plugins/docker
+  environment:
+    HF_TOKEN:
+      from_secret: HF_TOKEN
   pull: always
   settings:
     dockerfile: Dockerfile.runner
@@ -105,6 +116,7 @@ steps:
       - PULL_OLLAMA_MODELS_PHASE_2=phi3.5:3.8b-mini-instruct-q8_0;mixtral:instruct;gemma2:2b-instruct-q8_0;gemma2:9b-instruct-q8_0;gemma2:27b-instruct-q8_0
       - PULL_OLLAMA_MODELS_PHASE_3=qwen2.5:7b-instruct-q8_0;qwen2.5:72b
       - PULL_OLLAMA_MODELS_PHASE_4=adrienbrault/nous-hermes2theta-llama3-8b:q8_0;hermes3:8b-llama3.1-q8_0;aya:8b-23-q8_0;aya:35b;mistral-nemo:12b-instruct-2407-q8_0;mixtral:8x7b-instruct-v0.1-q6_K
+    secret: id=HF_TOKEN,env=HF_TOKEN
     username: admin
     password:
       from_secret: helix_registry_password
