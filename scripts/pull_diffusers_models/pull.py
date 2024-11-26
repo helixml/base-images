@@ -4,7 +4,7 @@ import os
 from huggingface_hub import snapshot_download
 
 
-def download_model(model_name: str):
+def download_model(model_name: str, save_path: str):
     """
     Download model weights from Hugging Face Hub
     
@@ -18,13 +18,11 @@ def download_model(model_name: str):
     # Download all model files directly without pipeline initialization
     snapshot_download(
         repo_id=model_name,
-        ignore_patterns=["*.md", "*.txt"],
+        cache_dir=save_path,
     )
 
     # Check the location of the downloaded models
-    cache_dir = os.path.expanduser("~/.cache/huggingface")
-    
-    print(f"Model successfully downloaded to: {cache_dir}")
+    print(f"Model successfully downloaded to: {save_path}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Download Stable Diffusion or Flux model weights")
@@ -34,6 +32,12 @@ if __name__ == "__main__":
         required=True,
         help="Name of the model on Hugging Face Hub (e.g., 'runwayml/stable-diffusion-v1-5' or 'black-forest-labs/FLUX.1-schnell')"
     )
+    parser.add_argument(
+        "--save_path",
+        type=str,
+        required=True,
+        help="Local directory path to save the model"
+    )
     
     args = parser.parse_args()
-    download_model(args.model_name)
+    download_model(args.model_name, args.save_path)
