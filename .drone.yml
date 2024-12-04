@@ -63,7 +63,7 @@ steps:
     repo: registry.helix.ml/helix/runner-base
     build_args:
       # Small models only
-      - PULL_OLLAMA_MODELS=llama3.1:8b-instruct-q8_0
+      - PULL_OLLAMA_MODELS=llama3.1:8b-instruct-q4_K_M
       - PULL_OLLAMA_MODELS_PHASE_2=llama3:instruct
       - PULL_DIFFUSERS_MODELS_SMALL=true
     secret: id=HF_TOKEN,env=HF_TOKEN
@@ -113,10 +113,10 @@ steps:
       # big base layer, and have a smaller layers on top for models that might
       # change more frequently and that we can add to without churning the
       # 100GB base
-      - PULL_OLLAMA_MODELS=llama3:instruct;llama3:8b-instruct-q8_0;llama3.1:8b-instruct-q8_0;llama3.1:70b;llama3.2:1b-instruct-q8_0;llama3.2:3b-instruct-q8_0
+      - PULL_OLLAMA_MODELS=llama3:instruct;llama3:8b-instruct-q8_0;llama3.1:8b-instruct-q4_K_M;llama3.1:70b-instruct-q4_K_M;llama3.2:1b-instruct-q8_0;llama3.2:3b-instruct-q8_0
       - PULL_OLLAMA_MODELS_PHASE_2=phi3.5:3.8b-mini-instruct-q8_0;mixtral:instruct;gemma2:2b-instruct-q8_0;gemma2:9b-instruct-q8_0;gemma2:27b-instruct-q8_0
       - PULL_OLLAMA_MODELS_PHASE_3=qwen2.5:7b-instruct-q8_0;qwen2.5:72b
-      - PULL_OLLAMA_MODELS_PHASE_4=adrienbrault/nous-hermes2theta-llama3-8b:q8_0;hermes3:8b-llama3.1-q8_0;aya:8b-23-q8_0;aya:35b;mistral-nemo:12b-instruct-2407-q8_0;mixtral:8x7b-instruct-v0.1-q6_K
+      - PULL_OLLAMA_MODELS_PHASE_4=adrienbrault/nous-hermes2theta-llama3-8b:q8_0;hermes3:8b-llama3.1-q8_0;aya:8b-23-q8_0;aya:35b-23-q4_0;mistral-nemo:12b-instruct-2407-q8_0;mixtral:8x7b-instruct-v0.1-q6_K
       - PULL_DIFFUSERS_MODELS_LARGE=true
       - PULL_DIFFUSERS_MODELS_SMALL=true
     secret: id=HF_TOKEN,env=HF_TOKEN
