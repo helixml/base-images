@@ -36,7 +36,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 FROM winglian/axolotl:main-20241008-py3.11-cu124-2.4.0
 
-ENV CACHE_DATE=2024-10-08
+ENV CACHE_DATE=2024-12-04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 WORKDIR /workspace
