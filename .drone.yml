@@ -34,7 +34,10 @@ steps:
     - main
     event:
     - tag
-    - push
+    # Only build on tag, so that common case of merge to main & immediately tag
+    # doesn't result in concurrent huge builds. Note if changing this you need
+    # to change it in all 3 places in this file.
+    # - push
 
 ---
 kind: pipeline
@@ -76,7 +79,9 @@ steps:
     - main
     event:
     - tag
-    - push
+    # Only build on tag, so that common case of merge to main & immediately tag
+    # doesn't result in concurrent huge builds.
+    # - push
 
 depends_on:
 - build-runner-base-empty
@@ -130,7 +135,9 @@ steps:
     - main
     event:
     - tag
-    - push
+    # Only build on tag, so that common case of merge to main & immediately tag
+    # doesn't result in concurrent huge builds.
+    # - push
 
 depends_on:
 - build-runner-base-small
