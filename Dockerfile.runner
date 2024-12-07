@@ -8,28 +8,28 @@ FROM ghcr.io/astral-sh/uv:${UV_VERSION}-bookworm-slim AS diffusers
 ENV UV_LINK_MODE=copy
 WORKDIR /workspace
 COPY scripts/pull_diffusers_models .
-ARG PULL_DIFFUSERS_MODELS_LARGE=""
-ENV PULL_DIFFUSERS_MODELS_LARGE=$PULL_DIFFUSERS_MODELS_LARGE
-ARG PULL_DIFFUSERS_MODELS_SMALL=""
-ENV PULL_DIFFUSERS_MODELS_SMALL=$PULL_DIFFUSERS_MODELS_SMALL
+ARG PULL_DIFFUSERS_MODELS_FLUX=""
+ENV PULL_DIFFUSERS_MODELS_FLUX=$PULL_DIFFUSERS_MODELS_FLUX
+ARG PULL_DIFFUSERS_MODELS_STABLEDIFFUSION=""
+ENV PULL_DIFFUSERS_MODELS_STABLEDIFFUSION=$PULL_DIFFUSERS_MODELS_STABLEDIFFUSION
 RUN mkdir -p /workspace/diffusers
 # Split these up to try to help with caching. Put most used/stable models first.
 # Save the files to a "hub" subdirectory to match the expected default structure of the diffusers library
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=secret,id=HF_TOKEN \
-    if [ ! -z "$PULL_DIFFUSERS_MODELS_SMALL" ]; then \
-        export HF_TOKEN=$(cat /run/secrets/HF_TOKEN) && \
-        uv run --frozen pull.py --model_name "stabilityai/sd-turbo" --save_path "/workspace/diffusers/hub"; \
-    fi
-RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=secret,id=HF_TOKEN \
-    if [ ! -z "$PULL_DIFFUSERS_MODELS_LARGE" ]; then \
+    if [ ! -z "$PULL_DIFFUSERS_MODELS_FLUX" ]; then \
         export HF_TOKEN=$(cat /run/secrets/HF_TOKEN) && \
         uv run --frozen pull.py --model_name "black-forest-labs/FLUX.1-dev" --save_path "/workspace/diffusers/hub"; \
     fi
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=secret,id=HF_TOKEN \
-    if [ ! -z "$PULL_DIFFUSERS_MODELS_LARGE" ]; then \
+    if [ ! -z "$PULL_DIFFUSERS_MODELS_STABLEDIFFUSION" ]; then \
+        export HF_TOKEN=$(cat /run/secrets/HF_TOKEN) && \
+        uv run --frozen pull.py --model_name "stabilityai/sd-turbo" --save_path "/workspace/diffusers/hub"; \
+    fi
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=secret,id=HF_TOKEN \
+    if [ ! -z "$PULL_DIFFUSERS_MODELS_STABLEDIFFUSION" ]; then \
         export HF_TOKEN=$(cat /run/secrets/HF_TOKEN) && \
         uv run --frozen pull.py --model_name "stabilityai/stable-diffusion-3.5-medium" --save_path "/workspace/diffusers/hub"; \
     fi
