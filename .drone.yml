@@ -20,8 +20,8 @@ steps:
     - "${DRONE_TAG:-main}-empty" # Default to branch
     - "latest-empty"
     daemon_off: true
-    registry: registry.helix.ml
-    repo: registry.helix.ml/helix/runner-base
+    registry: registry.helixml.tech
+    repo: registry.helixml.tech/helix/runner-base
     username: admin
     password:
       from_secret: helix_registry_password
@@ -62,8 +62,8 @@ steps:
     - "${DRONE_TAG:-main}-small" # Default to branch
     - "latest-small"
     daemon_off: true
-    registry: registry.helix.ml
-    repo: registry.helix.ml/helix/runner-base
+    registry: registry.helixml.tech
+    repo: registry.helixml.tech/helix/runner-base
     build_args:
       # Small models only
       - PULL_OLLAMA_MODELS=llama3.1:8b-instruct-q8_0
@@ -109,8 +109,8 @@ steps:
     - "${DRONE_TAG:-main}-large"
     - "latest-large"
     daemon_off: true
-    registry: registry.helix.ml
-    repo: registry.helix.ml/helix/runner-base
+    registry: registry.helixml.tech
+    repo: registry.helixml.tech/helix/runner-base
     build_args:
       # We put models we're confident in keeping around for a long time in a
       # big base layer, and have a smaller layers on top for models that might
