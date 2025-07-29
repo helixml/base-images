@@ -66,7 +66,7 @@ steps:
     repo: registry.helixml.tech/helix/runner-base
     build_args:
       # Small models only
-      - PULL_OLLAMA_MODELS=llama3.1:8b-instruct-q8_0
+      - PULL_OLLAMA_MODELS=qwen3:8b
     secret: id=HF_TOKEN,env=HF_TOKEN
     username: admin
     password:
@@ -116,10 +116,10 @@ steps:
       # big base layer, and have a smaller layers on top for models that might
       # change more frequently and that we can add to without churning the
       # 100GB base
-      - PULL_OLLAMA_MODELS=llama3.1:8b-instruct-q8_0;llama3.3:70b-instruct-q4_K_M;llama3.2:1b-instruct-q8_0;llama3.2:3b-instruct-q8_0
-      - PULL_OLLAMA_MODELS_PHASE_2=phi3.5:3.8b-mini-instruct-q8_0
-      - PULL_OLLAMA_MODELS_PHASE_3=qwen2.5:7b-instruct-q8_0
-      - PULL_OLLAMA_MODELS_PHASE_4=aya:8b-23-q8_0;aya:35b-23-q4_0;deepseek-r1:8b-llama-distill-q8_0;deepseek-r1:32b-qwen-distill-q8_0
+      - PULL_OLLAMA_MODELS=qwen3:8b
+      - PULL_OLLAMA_MODELS_PHASE_2=qwen2.5vl:32b
+      - PULL_OLLAMA_MODELS_PHASE_3=qwen3:32b
+      - PULL_OLLAMA_MODELS_PHASE_4=qwen3:30b
       # disabled for now because not better than flux and trying to minimize disk usage
       # - PULL_DIFFUSERS_MODELS_STABLEDIFFUSION=true
       - PULL_DIFFUSERS_MODELS_FLUX=true
