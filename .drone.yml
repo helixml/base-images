@@ -122,7 +122,8 @@ steps:
       - PULL_OLLAMA_MODELS_PHASE_4=qwen3:30b
       # disabled for now because not better than flux and trying to minimize disk usage
       # - PULL_DIFFUSERS_MODELS_STABLEDIFFUSION=true
-      - PULL_DIFFUSERS_MODELS_FLUX=true
+      # disabled for now because downloading FLUX from HF fails?!
+      # - PULL_DIFFUSERS_MODELS_FLUX=true
     secret: id=HF_TOKEN,env=HF_TOKEN
     username: admin
     password:
