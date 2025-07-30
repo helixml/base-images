@@ -34,16 +34,16 @@ RUN --mount=type=cache,target=/root/.cache/uv \
         uv run --frozen pull.py --model_name "stabilityai/stable-diffusion-3.5-medium" --save_path "/workspace/diffusers/hub"; \
     fi
 
-# Using newest CUDA runtime with Ubuntu 24.04 and cuDNN - much cleaner than heavy axolotl image
+# Using newest CUDA runtime with Ubuntu 22.04 and cuDNN - much cleaner than heavy axolotl image
 # AXOLOTL RESTORATION NOTE: Change back to winglian/axolotl:main-20241008-py3.11-cu124-2.4.0 when re-enabling axolotl
-FROM nvidia/cuda:12.4.1-cudnn-runtime-ubuntu24.04
+FROM nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04
 
 ENV CACHE_DATE=2025-01-30
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 WORKDIR /workspace
 
-# Install minimal system packages - Ubuntu 24.04 comes with Python 3.12
+# Install minimal system packages - Ubuntu 22.04 comes with Python 3.10
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     wget \
@@ -52,8 +52,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-dev \
     python3-venv \
     python3-pip \
-    libgl1-mesa-dri \
-    libgl1-mesa-dev \
+    libgl1-mesa-glx \
     ffmpeg \
     libsm6 \
     libxext6 \
@@ -61,7 +60,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# NO MINICONDA - using clean system Python 3.12 from Ubuntu 24.04
+# NO MINICONDA - using clean system Python 3.10 from Ubuntu 22.04
 # AXOLOTL RESTORATION NOTE: When re-enabling axolotl, you'll need to:
 # 1. Install miniconda with Python 3.11 environment as above (see git history)
 # 2. Update PATH to include miniconda
