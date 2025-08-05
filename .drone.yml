@@ -116,10 +116,10 @@ steps:
       # big base layer, and have a smaller layers on top for models that might
       # change more frequently and that we can add to without churning the
       # 100GB base
-      - PULL_OLLAMA_MODELS=qwen3:8b
-      - PULL_OLLAMA_MODELS_PHASE_2=qwen2.5vl:32b
-      - PULL_OLLAMA_MODELS_PHASE_3=qwen3:32b
-      - PULL_OLLAMA_MODELS_PHASE_4=qwen3:30b
+      - PULL_OLLAMA_MODELS=qwen3:8b,gpt-oss:20b
+      - PULL_OLLAMA_MODELS_PHASE_2=gpt-oss:120b
+      - PULL_OLLAMA_MODELS_PHASE_3=qwen3:30b,qwen2.5vl:32b
+      - PULL_OLLAMA_MODELS_PHASE_4=qwen3:32b
       # disabled for now because not better than flux and trying to minimize disk usage
       # - PULL_DIFFUSERS_MODELS_STABLEDIFFUSION=true
       # disabled for now because downloading FLUX from HF fails?!
