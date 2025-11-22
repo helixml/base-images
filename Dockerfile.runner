@@ -58,6 +58,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxext6 \
     software-properties-common \
     unzip \
+    gnupg2 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install ROCm repository and rocm-smi for AMD GPU monitoring
+# This enables unified image to support both NVIDIA (via CUDA) and AMD (via ROCm) GPUs
+# Note: Only installing rocm-smi for monitoring, not full ROCm stack (keeps image smaller)
+RUN curl -fsSL https://repo.radeon.com/rocm/rocm.gpg.key | gpg --dearmor -o /etc/apt/keyrings/rocm.gpg && \
+    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.2 jammy main" > /etc/apt/sources.list.d/rocm.list && \
+    apt-get update && apt-get install -y --no-install-recommends \
+    rocm-smi \
     && rm -rf /var/lib/apt/lists/*
 
 # NO MINICONDA - using clean system Python 3.10 from Ubuntu 22.04
