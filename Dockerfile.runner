@@ -63,14 +63,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install ROCm repository and libraries for AMD GPU support
 # This enables unified image to support both NVIDIA (via CUDA) and AMD (via ROCm) GPUs
-RUN curl -fsSL https://repo.radeon.com/rocm/rocm.gpg.key | gpg --dearmor -o /etc/apt/keyrings/rocm.gpg && \
-    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.2 jammy main" > /etc/apt/sources.list.d/rocm.list && \
+# Need both AMDGPU and ROCm repositories
+RUN mkdir -p /etc/apt/keyrings && \
+    curl -fsSL https://repo.radeon.com/rocm/rocm.gpg.key | gpg --dearmor -o /etc/apt/keyrings/rocm.gpg && \
+    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/amdgpu/6.2/ubuntu jammy main" > /etc/apt/sources.list.d/amdgpu.list && \
+    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.2 jammy main" >> /etc/apt/sources.list.d/rocm.list && \
     apt-get update && apt-get install -y --no-install-recommends \
-    rocm-smi \
+    rocm-smi-lib \
     rocm-dev \
     rocm-libs \
     hip-runtime-amd \
-    rocm-cmake \
     && rm -rf /var/lib/apt/lists/*
 
 # Set ROCm environment variables
