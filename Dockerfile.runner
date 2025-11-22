@@ -61,13 +61,29 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gnupg2 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install ROCm repository and rocm-smi for AMD GPU monitoring
+# Install ROCm repository and libraries for AMD GPU support
 # This enables unified image to support both NVIDIA (via CUDA) and AMD (via ROCm) GPUs
-# Note: Only installing rocm-smi for monitoring, not full ROCm stack (keeps image smaller)
 RUN curl -fsSL https://repo.radeon.com/rocm/rocm.gpg.key | gpg --dearmor -o /etc/apt/keyrings/rocm.gpg && \
     echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.2 jammy main" > /etc/apt/sources.list.d/rocm.list && \
     apt-get update && apt-get install -y --no-install-recommends \
     rocm-smi \
+    rocm-dev \
+    rocm-libs \
+    hip-runtime-amd \
+    rocm-cmake \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set ROCm environment variables
+ENV ROCM_PATH=/opt/rocm
+ENV PATH=$PATH:/opt/rocm/bin
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/rocm/lib
+
+# Install Python 3.12 for vLLM (consistent with CUDA venv)
+RUN add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get update && apt-get install -y --no-install-recommends \
+    python3.12 \
+    python3.12-venv \
+    python3.12-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # NO MINICONDA - using clean system Python 3.10 from Ubuntu 22.04
